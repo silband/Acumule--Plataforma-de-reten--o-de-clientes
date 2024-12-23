@@ -1,0 +1,6 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^novaplataforma\.acumulemais\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.novaplataforma\.acumulemais\.com$
+RewriteRule ^/?$ "https\:\/\/novaplataforma\.acumulemais\.com" [R=301,L]
+

@@ -1,0 +1,106 @@
+<?php
+error_reporting(E_ALL & ~(E_DEPRECATED));
+header ('Content-type: text/html; charset=UTF-8');
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+date_default_timezone_set('America/Sao_Paulo');
+
+if (!isset($_SESSION)) session_start();
+
+if ($_SERVER['HTTP_HOST'] == "localhost:8080") {
+	$localhost = TRUE;
+	if (!defined('URL')) define('URL', 'http://localhost:8080/novaplataforma');
+} else {
+	$localhost = FALSE;
+	if (!defined('URL')) define('URL', 'https://novaplataforma.acumulemais.com/');
+}
+
+if($localhost==TRUE) {
+	$hostnamedb = "localhost";
+	$usernamedb = "root";
+	$passworddb = "usbw";
+	$dbName = "acumul29_acumule_mais";
+} else {
+	$hostnamedb = "localhost";
+	$usernamedb = "acumul29";
+	$passworddb = "85qno4AEm8";
+	$dbName = "acumul29_acumule_mais";
+}
+
+$conexao = mysqli_connect($hostnamedb, $usernamedb, $passworddb, $dbName) or die ("Nao foi possivel conectar com o servidor. Descricao do erro: " . mysqli_connect_errno());
+mysqli_set_charset($conexao, 'utf8');
+
+$empresa = "0001";
+$filial = "0001";
+$usuario = "0001";
+
+//remove acentos
+function RemoveAcentos($str) {
+	require_once("urlify.php");
+	return URLify::filter ($str);
+}
+
+//formata valor
+function formata_valor($valor) {
+	if(isset($valor)){
+		$valor = (float)$valor;
+		$valor = number_format($valor,2,',','.');
+		return "R$ " . $valor;
+	}else{
+		return "";
+	}
+}
+
+//Funcao antiSQLInjection
+function antiInjectionHTML($conn, $string) {
+	$string = stripslashes($string);
+	$string = mysqli_real_escape_string($conn, $string);
+	return $string;
+}
+
+function antiInjection($conn, $string) {
+	$string = stripslashes($string);
+	$string = strip_tags($string);
+	$string = mysqli_real_escape_string($conn, $string);
+	return $string;
+}
+
+/*
+function encodeToUtf8($string) {
+     return mb_convert_encoding($string, "UTF-8", mb_detect_encoding($string, "UTF-8, ISO-8859-1, ISO-8859-15", true));
+}
+*/
+function encodeToUtf8 ($data) {
+    return preg_replace(
+        array (
+            '/ä/',
+            '/ö/',
+            '/ü/',
+            '/é/',
+            '/à/',
+            '/è/',
+            '/ç/',
+            '/ã/',
+            '/í/',
+            '/ì/',
+            '/á/'
+        ),
+        array (
+            '&auml;',
+            '&ouml;',
+            '&uuml;',
+            '&eacute;',
+            '&agrave;',
+            '&egrave;',
+            '&ccedil;',
+            '&atilde;',
+            '&iacute;',
+            '&igrave;',
+            '&aacute;'
+        ),
+        $data 
+    );
+}
+
+function soNumero($str) {
+    return preg_replace("/[^0-9]/", "", $str);
+}
