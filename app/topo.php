@@ -13,9 +13,15 @@ include("functions.php")
 
 	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo URL; ?>/assets/img/icon/a+.png">
 	
+	<!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	
 	<!-- ================== BEGIN PAGE CSS ================== -->
 	<link href="<?php echo URL; ?>/assets/plugins/summernote/dist/summernote.css" rel="stylesheet" />
 	<!-- ================== END PAGE CSS ================== -->
+
+	<!-- Adicionar Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 	<!-- ================== BEGIN BASE CSS STYLE ================== -->
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
